@@ -46,18 +46,6 @@
   "name":"io.netty.channel.DefaultChannelPipeline"
 },
 {
-  "name":"io.netty.channel.epoll.Epoll"
-},
-{
-  "name":"io.netty.channel.epoll.Native"
-},
-{
-  "name":"io.netty.channel.kqueue.KQueueEventLoop"
-},
-{
-  "name":"io.netty.channel.kqueue.Native"
-},
-{
   "name":"io.netty.channel.local.LocalChannel"
 },
 {
