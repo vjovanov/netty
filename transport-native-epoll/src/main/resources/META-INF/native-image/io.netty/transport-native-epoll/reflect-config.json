@@ -1,8 +1,8 @@
 [
-{
-  "name":"io.netty.channel.epoll.Epoll"
-},
-{
-  "name":"io.netty.channel.epoll.Native"
-}
+  {
+    "name": "io.netty.channel.epoll.Epoll"
+  },
+  {
+    "name": "io.netty.channel.epoll.Native"
+  }
 ]

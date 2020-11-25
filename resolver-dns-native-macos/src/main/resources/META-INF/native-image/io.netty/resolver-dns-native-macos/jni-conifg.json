@@ -1,11 +1,11 @@
 [
-{
-  "name":"byte[][]"
-},
-{
-  "name":"io.netty.resolver.dns.macos.DnsResolver[]"
-},
-{
-  "name":"java.lang.String[]"
-}
+  {
+    "name": "byte[][]"
+  },
+  {
+    "name": "io.netty.resolver.dns.macos.DnsResolver[]"
+  },
+  {
+    "name": "java.lang.String[]"
+  }
 ]
