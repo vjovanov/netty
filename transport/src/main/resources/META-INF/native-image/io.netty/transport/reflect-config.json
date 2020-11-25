@@ -46,6 +46,9 @@
   "name":"io.netty.channel.DefaultChannelPipeline"
 },
 {
+  "name":"io.netty.channel.epoll.Epoll"
+},
+{
   "name":"io.netty.channel.epoll.Native"
 },
 {
