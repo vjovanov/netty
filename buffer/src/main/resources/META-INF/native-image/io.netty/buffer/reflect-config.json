@@ -1,7 +1,14 @@
 [
   {
     "name": "io.netty.buffer.AbstractByteBufAllocator",
-    "allDeclaredMethods": true
+    "methods": [
+      {
+        "name": "toLeakAwareBuffer",
+        "parameterTypes": [
+          "io.netty.buffer.CompositeByteBuf"
+        ]
+      }
+    ]
   },
   {
     "name": "io.netty.buffer.AbstractReferenceCountedByteBuf",
@@ -14,7 +21,24 @@
   },
   {
     "name": "io.netty.buffer.AdvancedLeakAwareByteBuf",
-    "allDeclaredMethods": true
+    "methods": [
+      {
+        "name": "touch",
+        "parameterTypes": []
+      },
+      {
+        "name": "touch",
+        "parameterTypes": [
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "recordLeakNonRefCountingOperation",
+        "parameterTypes": [
+          "io.netty.util.ResourceLeakTracker"
+        ]
+      }
+    ]
   },
   {
     "name": "java.lang.management.ManagementFactory",

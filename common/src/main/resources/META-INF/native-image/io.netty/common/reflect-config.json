@@ -22,7 +22,21 @@
   },
   {
     "name": "io.netty.util.ReferenceCountUtil",
-    "allDeclaredMethods": true
+    "methods": [
+      {
+        "name": "touch",
+        "parameterTypes": [
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "touch",
+        "parameterTypes": [
+          "java.lang.Object",
+          "java.lang.Object"
+        ]
+      }
+    ]
   },
   {
     "name": "io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
