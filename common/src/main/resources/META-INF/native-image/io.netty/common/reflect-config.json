@@ -1,0 +1,280 @@
+[
+  {
+    "name": "io.netty.util.AbstractReferenceCounted",
+    "fields": [
+      {
+        "name": "refCnt",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.DefaultAttributeMap"
+  },
+  {
+    "name": "io.netty.util.DefaultAttributeMap$DefaultAttribute"
+  },
+  {
+    "name": "io.netty.util.HashedWheelTimer"
+  },
+  {
+    "name": "io.netty.util.HashedWheelTimer$HashedWheelTimeout"
+  },
+  {
+    "name": "io.netty.util.ReferenceCountUtil",
+    "methods": [
+      {
+        "name": "touch",
+        "parameterTypes": [
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "touch",
+        "parameterTypes": [
+          "java.lang.Object",
+          "java.lang.Object"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
+  },
+  {
+    "name": "io.netty.util.ResourceLeakDetectorFactory"
+  },
+  {
+    "name": "io.netty.util.concurrent.DefaultPromise"
+  },
+  {
+    "name": "io.netty.util.concurrent.SingleThreadEventExecutor"
+  },
+  {
+    "name": "io.netty.util.internal.CleanerJava6"
+  },
+  {
+    "name": "io.netty.util.internal.CleanerJava9"
+  },
+  {
+    "name": "io.netty.util.internal.PlatformDependent0"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.BaseLinkedQueueConsumerNodeRef",
+    "fields": [
+      {
+        "name": "consumerNode",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.BaseLinkedQueueProducerNodeRef",
+    "fields": [
+      {
+        "name": "producerNode",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueColdProducerFields",
+    "fields": [
+      {
+        "name": "producerLimit",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueConsumerFields",
+    "fields": [
+      {
+        "name": "consumerIndex",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueProducerFields",
+    "fields": [
+      {
+        "name": "producerIndex",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.LinkedQueueNode",
+    "fields": [
+      {
+        "name": "next",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueConsumerIndexField",
+    "fields": [
+      {
+        "name": "consumerIndex",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerIndexField",
+    "fields": [
+      {
+        "name": "producerIndex",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerLimitField",
+    "fields": [
+      {
+        "name": "producerLimit",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueueConsumerNodeRef"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueueProducerNodeRef"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueueColdProducerFields"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueueConsumerFields"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueueProducerFields"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscAtomicArrayQueueConsumerIndexField"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscAtomicArrayQueueProducerIndexField"
+  },
+  {
+    "name": "io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscAtomicArrayQueueProducerLimitField"
+  },
+  {
+    "name": "java.lang.management.ManagementFactory",
+    "methods": [
+      {
+        "name": "getRuntimeMXBean",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.lang.management.RuntimeMXBean",
+    "methods": [
+      {
+        "name": "getInputArguments",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.nio.Bits",
+    "fields": [
+      {
+        "name": "UNALIGNED"
+      }
+    ]
+  },
+  {
+    "name": "java.nio.Buffer",
+    "fields": [
+      {
+        "name": "address",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "java.nio.DirectByteBuffer",
+    "fields": [
+      {
+        "name": "cleaner",
+        "allowUnsafeAccess": true
+      }
+    ],
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "long",
+          "int"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jdk.internal.misc.Unsafe",
+    "methods": [
+      {
+        "name": "getUnsafe",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jdk.internal.ref.Cleaner",
+    "methods": [
+      {
+        "name": "clean",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.misc.Unsafe",
+    "fields": [
+      {
+        "name": "theUnsafe"
+      }
+    ],
+    "methods": [
+      {
+        "name": "copyMemory",
+        "parameterTypes": [
+          "java.lang.Object",
+          "long",
+          "java.lang.Object",
+          "long",
+          "long"
+        ]
+      },
+      {
+        "name": "getAndAddLong",
+        "parameterTypes": [
+          "java.lang.Object",
+          "long",
+          "long"
+        ]
+      },
+      {
+        "name": "getAndSetObject",
+        "parameterTypes": [
+          "java.lang.Object",
+          "long",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "invokeCleaner",
+        "parameterTypes": [
+          "java.nio.ByteBuffer"
+        ]
+      }
+    ]
+  }
+]

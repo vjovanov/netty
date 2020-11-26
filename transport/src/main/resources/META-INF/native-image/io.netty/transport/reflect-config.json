@@ -1,0 +1,232 @@
+[
+  {
+    "name": "io.netty.channel.socket.nio.NioServerSocketChannel",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.nio.ch.SelectorImpl",
+    "fields": [
+      {
+        "name": "selectedKeys",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "publicSelectedKeys",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "java.lang.management.ManagementFactory",
+    "methods": [
+      {
+        "name": "getRuntimeMXBean",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.lang.management.RuntimeMXBean",
+    "methods": [
+      {
+        "name": "getName",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "io.netty.channel.AbstractChannelHandlerContext"
+  },
+  {
+    "name": "io.netty.channel.ChannelOutboundBuffer"
+  },
+  {
+    "name": "io.netty.channel.DefaultChannelConfig"
+  },
+  {
+    "name": "io.netty.channel.DefaultChannelId"
+  },
+  {
+    "name": "io.netty.channel.DefaultChannelPipeline"
+  },
+  {
+    "name": "io.netty.channel.local.LocalChannel"
+  },
+  {
+    "name": "io.netty.channel.socket.nio.NioDatagramChannelConfig"
+  },
+  {
+    "name": "io.netty.channel.unix.FileDescriptor"
+  },
+  {
+    "name": "io.netty.util.AbstractReferenceCounted",
+    "fields": [
+      {
+        "name": "refCnt",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.netty.util.internal.NativeLibraryUtil",
+    "methods": [
+      {
+        "name": "loadLibrary",
+        "parameterTypes": [
+          "java.lang.String",
+          "boolean"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "java.lang.management.ManagementFactory",
+    "methods": [
+      {
+        "name": "getRuntimeMXBean",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.lang.management.RuntimeMXBean",
+    "methods": [
+      {
+        "name": "getInputArguments",
+        "parameterTypes": []
+      },
+      {
+        "name": "getName",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.net.SocketOption"
+  },
+  {
+    "name": "java.net.StandardSocketOptions",
+    "fields": [
+      {
+        "name": "IP_MULTICAST_IF"
+      },
+      {
+        "name": "IP_MULTICAST_LOOP"
+      },
+      {
+        "name": "IP_MULTICAST_TTL"
+      }
+    ]
+  },
+  {
+    "name": "java.nio.Bits",
+    "fields": [
+      {
+        "name": "UNALIGNED"
+      }
+    ]
+  },
+  {
+    "name": "java.nio.Buffer",
+    "fields": [
+      {
+        "name": "address",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "java.nio.DirectByteBuffer",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "long",
+          "int"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "java.nio.channels.NetworkChannel",
+    "methods": [
+      {
+        "name": "getOption",
+        "parameterTypes": [
+          "java.net.SocketOption"
+        ]
+      },
+      {
+        "name": "setOption",
+        "parameterTypes": [
+          "java.net.SocketOption",
+          "java.lang.Object"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "java.security.MessageDigestSpi"
+  },
+  {
+    "name": "java.security.SecureRandomParameters"
+  },
+  {
+    "name": "jdk.internal.misc.Unsafe",
+    "methods": [
+      {
+        "name": "getUnsafe",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.misc.Unsafe",
+    "fields": [
+      {
+        "name": "theUnsafe"
+      }
+    ],
+    "methods": [
+      {
+        "name": "copyMemory",
+        "parameterTypes": [
+          "java.lang.Object",
+          "long",
+          "java.lang.Object",
+          "long",
+          "long"
+        ]
+      },
+      {
+        "name": "invokeCleaner",
+        "parameterTypes": [
+          "java.nio.ByteBuffer"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sun.security.provider.NativePRNG",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.security.provider.SHA",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  }
+]

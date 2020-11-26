@@ -1,0 +1,8 @@
+[
+  {
+    "name": "io.netty.channel.kqueue.KQueueEventLoop"
+  },
+  {
+    "name": "io.netty.channel.kqueue.Native"
+  }
+]
