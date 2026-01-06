@@ -13,21 +13,8 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package io.netty.util.internal.svm;
 
-import com.oracle.svm.core.annotate.Alias;
-import com.oracle.svm.core.annotate.RecomputeFieldValue;
-import com.oracle.svm.core.annotate.TargetClass;
-
-@TargetClass(className = "io.netty.util.internal.PlatformDependent0", onlyWith = NativeImageConfigEnabled.class)
-final class PlatformDependent0Substitution {
-    private PlatformDependent0Substitution() {
-    }
-
-    @Alias
-    @RecomputeFieldValue(
-        kind = RecomputeFieldValue.Kind.FieldOffset,
-        declClassName = "java.nio.Buffer",
-        name = "address")
-    private static long ADDRESS_FIELD_OFFSET;
-}
+/**
+ * This package contains classes that are used to configure GraalVM Native Image.
+ */
+package io.netty.buffer.svm;

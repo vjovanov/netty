@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 The Netty Project
+ * Copyright 2026 The Netty Project
  *
  * The Netty Project licenses this file to you under the Apache License,
  * version 2.0 (the "License"); you may not use this file except in compliance
@@ -15,19 +15,11 @@
  */
 package io.netty.util.internal.svm;
 
-import com.oracle.svm.core.annotate.Alias;
-import com.oracle.svm.core.annotate.RecomputeFieldValue;
-import com.oracle.svm.core.annotate.TargetClass;
+import java.util.function.BooleanSupplier;
 
-@TargetClass(className = "io.netty.util.internal.PlatformDependent0", onlyWith = NativeImageConfigEnabled.class)
-final class PlatformDependent0Substitution {
-    private PlatformDependent0Substitution() {
+public final class NativeImageConfigEnabled implements BooleanSupplier {
+    @Override
+    public boolean getAsBoolean() {
+        return NativeImageBuildOptions.shouldApply();
     }
-
-    @Alias
-    @RecomputeFieldValue(
-        kind = RecomputeFieldValue.Kind.FieldOffset,
-        declClassName = "java.nio.Buffer",
-        name = "address")
-    private static long ADDRESS_FIELD_OFFSET;
 }

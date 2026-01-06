@@ -1,0 +1,285 @@
+# GraalVM Native Image Migration Guide
+
+## Overview
+
+Netty is migrating its GraalVM Native Image feature registration from the legacy service loader mechanism
+(`META-INF/services/org.graalvm.nativeimage.hosted.Feature`) to the modern property-based configuration
+approach using `native-image.properties` files. This migration provides better control over build-time
+initialization and aligns with GraalVM's recommended practices.
+
+The migration introduces the [`io.netty.avoidBuildTimeInit`](../common/src/main/java/io/netty/util/internal/svm/NativeImageBuildOptions.java:22)
+system property flag, which allows users to opt into runtime-only initialization, preparing applications
+for future releases where runtime initialization will become the default.
+
+## Property-Based Registration
+
+### File Location Pattern
+
+Each Netty module with Native Image features now includes a properties file at:
+```
+META-INF/native-image/io.netty/netty-{module}/native-image.properties
+```
+
+### Property File Format
+
+Each properties file contains an `Args` entry that registers the module's feature class:
+
+```properties
+Args = --features=io.netty.fully.qualified.FeatureClassName
+```
+
+**Example** ([`netty-common`](../common/src/main/resources/META-INF/native-image/io.netty/netty-common/native-image.properties)):
+```properties
+Args = --features=io.netty.util.internal.svm.CommonNativeImageFeature
+```
+
+### Affected Modules
+
+The following 10 modules have been migrated to property-based registration:
+
+| Module | Feature Class | Initialization Type |
+|--------|--------------|---------------------|
+| **common** | [`CommonNativeImageFeature`](../common/src/main/java/io/netty/util/internal/svm/CommonNativeImageFeature.java) | Runtime + Build-time |
+| **buffer** | [`BufferNativeImageFeature`](../buffer/src/main/java/io/netty/buffer/svm/BufferNativeImageFeature.java) | Runtime only |
+| **codec-compression** | [`CompressionNativeImageFeature`](../codec-compression/src/main/java/io/netty/handler/codec/compression/svm/CompressionNativeImageFeature.java) | Runtime only |
+| **codec-http** | [`HttpNativeImageFeature`](../codec-http/src/main/java/io/netty/handler/codec/http/svm/HttpNativeImageFeature.java) | Runtime + Build-time |
+| **codec-http2** | [`Http2NativeImageFeature`](../codec-http2/src/main/java/io/netty/handler/codec/http2/svm/Http2NativeImageFeature.java) | Runtime + Build-time |
+| **handler** | [`HandlerNativeImageFeature`](../handler/src/main/java/io/netty/handler/ssl/svm/HandlerNativeImageFeature.java) | Runtime only |
+| **resolver-dns** | [`DnsNativeImageFeature`](../resolver-dns/src/main/java/io/netty/resolver/dns/svm/DnsNativeImageFeature.java) | Runtime only |
+| **transport-classes-epoll** | [`EpollNativeImageFeature`](../transport-classes-epoll/src/main/java/io/netty/channel/epoll/svm/EpollNativeImageFeature.java) | Runtime only |
+| **transport-classes-io_uring** | [`IouringNativeImageFeature`](../transport-classes-io_uring/src/main/java/io/netty/channel/uring/svm/IouringNativeImageFeature.java) | Runtime only |
+| **codec-native-quic** | [`QuicNativeImageFeature`](../codec-native-quic/src/main/java/io/netty/handler/codec/quic/svm/QuicNativeImageFeature.java) | Runtime only |
+
+## The `io.netty.avoidBuildTimeInit` Flag
+
+### Purpose
+
+The [`io.netty.avoidBuildTimeInit`](../common/src/main/java/io/netty/util/internal/svm/NativeImageBuildOptions.java:22)
+system property controls whether Netty's Native Image features apply initialization logic during the
+native-image build process. This flag allows users to prepare their applications for future Netty
+releases where runtime initialization will be the default behavior.
+
+### Semantics
+
+The flag is implemented in [`NativeImageBuildOptions.shouldApply()`](../common/src/main/java/io/netty/util/internal/svm/NativeImageBuildOptions.java:29):
+
+```java
+private static final String AVOID_BUILD_TIME_INIT = "io.netty.avoidBuildTimeInit";
+private static final boolean SHOULD_APPLY = System.getProperty(AVOID_BUILD_TIME_INIT) == null;
+
+static boolean shouldApply() {
+    if (SHOULD_APPLY) {
+        warn();
+    }
+    return SHOULD_APPLY;
+}
+```
+
+**Behavior:**
+- **Flag NOT set** (default): `shouldApply()` returns `true`, features execute initialization logic
+- **Flag set to any value** (`-Dio.netty.avoidBuildTimeInit=true`): `shouldApply()` returns `false`,
+  all initialization is skipped
+
+### Usage Example
+
+To build a native image with runtime-only initialization (no build-time initialization):
+
+```bash
+native-image \
+  -Dio.netty.avoidBuildTimeInit=true \
+  -cp target/myapp.jar:target/libs/* \
+  -H:Name=myapp \
+  -H:+ReportExceptionStackTraces \
+  --no-fallback \
+  com.example.MyApplication
+```
+
+### Warning Message
+
+When building **without** the flag, you'll see this warning during the build:
+
+```
+In the future releases Netty will start using run-time initialization. Please use
+'-Dio.netty.avoidBuildTimeInit=true' to prepare for that change.
+```
+
+This warning is generated by [`NativeImageBuildOptions.warn()`](../common/src/main/java/io/netty/util/internal/svm/NativeImageBuildOptions.java:36)
+and appears only once per build.
+
+## Testing Checklist
+
+### Test Without Flag (Current Behavior)
+
+Build and run your native image **without** `-Dio.netty.avoidBuildTimeInit=true`:
+
+1. ✓ Build completes successfully
+2. ✓ Native image build logs show feature registration:
+   ```
+   [feature]: Registered feature: io.netty.util.internal.svm.CommonNativeImageFeature
+   [feature]: Registered feature: io.netty.buffer.svm.BufferNativeImageFeature
+   [feature]: Registered feature: io.netty.handler.codec.compression.svm.CompressionNativeImageFeature
+   ...
+   ```
+3. ✓ Warning message appears about future runtime initialization
+4. ✓ Application runs correctly with expected Netty functionality
+5. ✓ Initialization occurs at build time (as configured by features)
+
+### Test With Flag (Future Behavior)
+
+Build and run your native image **with** `-Dio.netty.avoidBuildTimeInit=true`:
+
+1. ✓ Build completes successfully
+2. ✓ Features are still registered (via properties files)
+3. ✓ **No warning message appears** (flag is set)
+4. ✓ **No initialization logic executes** during build
+5. ✓ Application runs correctly with runtime initialization
+6. ✓ Verify runtime behavior matches expectations
+
+### Integration Testing
+
+Test with common Netty usage patterns:
+
+- ✓ HTTP/HTTP2 server and client operations
+- ✓ SSL/TLS connections
+- ✓ DNS resolution
+- ✓ Compression/decompression
+- ✓ Native transport (epoll, io_uring) if applicable
+- ✓ QUIC protocol if applicable
+
+## Migration Timeline
+
+### Current State (Property-Based Registration Active)
+
+- ✅ All modules use property-based feature registration
+- ✅ Service loader files remain for backward compatibility (deprecated)
+- ✅ `io.netty.avoidBuildTimeInit` flag is available
+- ⚙️ Default behavior: build-time initialization (when flag is NOT set)
+
+### Near Future (Service Loaders Removed)
+
+- 🗑️ Service loader files will be removed
+- ⚙️ Property-based registration becomes sole mechanism
+- ⚙️ `io.netty.avoidBuildTimeInit` flag still supported
+- ⚙️ Default behavior: still build-time initialization
+
+### Future Releases (Runtime Initialization Default)
+
+- 🔄 Default behavior will change to runtime initialization
+- ⚙️ Flag semantics may be inverted or deprecated
+- 📢 Major version upgrade or advance deprecation notice will be provided
+
+## Backward Compatibility
+
+### Transition Period
+
+During the transition period, both mechanisms (service loaders and properties) can coexist:
+
+- Properties files take precedence for feature registration
+- Service loader files remain for backward compatibility with older GraalVM versions
+- No action required from users during this period
+
+### Action Items for Users
+
+**Recommended Now:**
+1. Test your native images with `-Dio.netty.avoidBuildTimeInit=true`
+2. Verify all functionality works correctly with runtime initialization
+3. Report any issues to the Netty project
+
+**Required Before Service Loader Removal:**
+- Ensure your build uses GraalVM/Native Image version that supports property-based registration
+- Update build scripts if you manually manage Native Image feature configuration
+
+## FAQ
+
+### Q: Why is Netty making this change?
+
+**A:** The migration to property-based registration offers several benefits:
+- Better alignment with GraalVM's recommended practices
+- More explicit control over feature registration
+- Preparation for future runtime-initialization default (improved startup performance)
+- Cleaner separation of build-time and runtime concerns
+
+### Q: Do I need to change my build scripts?
+
+**A:** In most cases, no. The migration is transparent for standard use cases. However, you should:
+- Test with the `-Dio.netty.avoidBuildTimeInit=true` flag to prepare for future changes
+- Review custom Native Image configurations if you have any
+
+### Q: What happens if I don't use the flag?
+
+**A:** Currently, nothing changes. Your native images will continue to work as before with
+build-time initialization. However, testing with the flag helps identify potential issues
+before the default behavior changes in future releases.
+
+### Q: Can I use both service loaders and properties?
+
+**A:** Yes, during the transition period both mechanisms are supported. Properties files take
+precedence, but service loaders remain as fallback for backward compatibility.
+
+### Q: When will service loader files be removed?
+
+**A:** Service loader removal will be announced well in advance with:
+- Deprecation warnings in release notes
+- Sufficient time for testing and migration
+- Clear communication about affected versions
+
+### Q: How do I verify features are registered correctly?
+
+**A:** Check your native-image build logs for messages like:
+```
+[feature]: Registered feature: io.netty.util.internal.svm.CommonNativeImageFeature
+```
+
+These messages confirm that features are being discovered and registered via the properties files.
+
+## Verification Steps
+
+Use this checklist to verify your migration:
+
+### 1. Feature Registration Logs
+
+During native-image build, verify you see registration messages for all Netty modules in use:
+
+```
+[feature]: Registered feature: io.netty.util.internal.svm.CommonNativeImageFeature
+[feature]: Registered feature: io.netty.buffer.svm.BufferNativeImageFeature
+[feature]: Registered feature: io.netty.handler.codec.http.svm.HttpNativeImageFeature
+[feature]: Registered feature: io.netty.handler.ssl.svm.HandlerNativeImageFeature
+...
+```
+
+### 2. Flag Behavior Verification
+
+**Without flag:**
+- Build produces warning about future runtime initialization
+- Application works normally
+- Features apply initialization at build time
+
+**With flag (`-Dio.netty.avoidBuildTimeInit=true`):**
+- No warning appears
+- Application works normally
+- Features skip initialization (runtime initialization occurs)
+
+### 3. Runtime Verification
+
+Execute comprehensive tests covering:
+- Network operations (connect, bind, send, receive)
+- Protocol handling (HTTP, HTTP/2, TLS, DNS)
+- Buffer operations and memory management
+- Native transport functionality (if using epoll/io_uring)
+- Compression and decompression
+- Error handling and edge cases
+
+## Support
+
+If you encounter issues during migration or have questions:
+
+- Report issues: [Netty GitHub Issues](https://github.com/netty/netty/issues)
+- Community support: [Netty Discord](https://discord.gg/q4aQ2XjaCa)
+- Documentation: [Netty Wiki](https://netty.io/wiki/)
+
+## See Also
+
+- [GraalVM Native Image Documentation](https://www.graalvm.org/latest/reference-manual/native-image/)
+- [Native Image Build Configuration](https://www.graalvm.org/latest/reference-manual/native-image/overview/BuildConfiguration/)
+- [Netty Developer Guide](https://netty.io/wiki/developer-guide.html)

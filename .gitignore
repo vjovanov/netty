@@ -36,6 +36,10 @@ replay_pid*.log
 *.hprof.xz
 *.threads
 
+# Beads
+.beads/
+.plans/
+
 dependency-reduced-pom.xml
 
 */.unison.*

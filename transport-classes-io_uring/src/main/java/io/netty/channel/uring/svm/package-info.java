@@ -13,23 +13,8 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package io.netty.util.internal.svm;
 
-import com.oracle.svm.core.annotate.Alias;
-import com.oracle.svm.core.annotate.RecomputeFieldValue;
-import com.oracle.svm.core.annotate.TargetClass;
-
-@TargetClass(className = "io.netty.util.internal.RefCnt$UnsafeRefCnt", onlyWith = NativeImageConfigEnabled.class)
-final class RefCntSubstitution {
-    private RefCntSubstitution() {
-    }
-
-    @Alias
-    @RecomputeFieldValue(
-            kind = RecomputeFieldValue.Kind.FieldOffset,
-            declClassName = "io.netty.util.internal.RefCnt",
-            name = "value"
-    )
-    public static long VALUE_OFFSET;
-
-}
+/**
+ * GraalVM native image Feature classes for Netty's io_uring transport.
+ */
+package io.netty.channel.uring.svm;

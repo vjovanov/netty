@@ -13,6 +13,7 @@ Netty is an asynchronous event-driven network application framework for rapid de
 * [@netty_project](https://twitter.com/netty_project)
 * [Official Discord server](https://discord.gg/q4aQ2XjaCa)
 * [Modular Netty guide](testsuite-jpms/README.md)
+* [GraalVM Native Image migration guide](docs/native-image-migration.md)
 
 ## How to build
 
@@ -32,5 +33,5 @@ Development of all versions takes place in each branch whose name is identical t
 
 ## Usage with JDK 9+
 
-You can read the [Modular Netty guide](testsuite-jpms/README.md) to learn more about using Netty with the Java Platform Module System, the guide 
+You can read the [Modular Netty guide](testsuite-jpms/README.md) to learn more about using Netty with the Java Platform Module System, the guide
 contains a user section and a developer section for Netty contributors.

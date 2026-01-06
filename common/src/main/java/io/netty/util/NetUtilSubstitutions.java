@@ -18,6 +18,7 @@ package io.netty.util;
 import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.InjectAccessors;
 import com.oracle.svm.core.annotate.TargetClass;
+import io.netty.util.internal.svm.NativeImageConfigEnabled;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -25,7 +26,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collection;
 
-@TargetClass(NetUtil.class)
+@TargetClass(value = NetUtil.class, onlyWith = NativeImageConfigEnabled.class)
 final class NetUtilSubstitutions {
     private NetUtilSubstitutions() {
     }
