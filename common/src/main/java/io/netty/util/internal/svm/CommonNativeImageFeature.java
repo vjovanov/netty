@@ -22,6 +22,10 @@ public class CommonNativeImageFeature implements Feature {
 
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
+        if (!NativeImageBuildOptions.shouldApply()) {
+            return;
+        }
+
         // Run-time initialization
         RuntimeClassInitialization.initializeAtRunTime(
                 "io.netty.util.AbstractReferenceCounted",
