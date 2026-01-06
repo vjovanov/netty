@@ -146,6 +146,13 @@
 
     <!-- Automatic native-image reflection metadata generation for handlers dependencies -->
     <dependency>
+      <groupId>org.graalvm.nativeimage</groupId>
+      <artifactId>svm</artifactId>
+      <version>${graalvm.version}</version>
+      <!-- Provided scope as it is only needed for compiling the SVM substitution classes -->
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
     </dependency>
