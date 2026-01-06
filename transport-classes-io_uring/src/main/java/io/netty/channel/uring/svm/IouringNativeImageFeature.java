@@ -15,6 +15,7 @@
  */
 package io.netty.channel.uring.svm;
 
+import io.netty.util.internal.svm.NativeImageBuildOptions;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 
@@ -22,6 +23,9 @@ public class IouringNativeImageFeature implements Feature {
 
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
+        if (!NativeImageBuildOptions.shouldApply()) {
+            return;
+        }
         // Run-time initialization
         RuntimeClassInitialization.initializeAtRunTime(
                 "io.netty.channel.uring",

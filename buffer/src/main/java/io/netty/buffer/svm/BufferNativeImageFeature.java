@@ -15,6 +15,7 @@
  */
 package io.netty.buffer.svm;
 
+import io.netty.util.internal.svm.NativeImageBuildOptions;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 
@@ -22,6 +23,9 @@ public class BufferNativeImageFeature implements Feature {
 
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
+        if (!NativeImageBuildOptions.shouldApply()) {
+            return;
+        }
         // Run-time initialization
         RuntimeClassInitialization.initializeAtRunTime(
                 "io.netty.buffer.AbstractReferenceCountedByteBuf",

@@ -15,12 +15,16 @@
  */
 package io.netty.channel.epoll.svm;
 
+import io.netty.util.internal.svm.NativeImageBuildOptions;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 
 public class EpollNativeImageFeature implements Feature {
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
+        if (!NativeImageBuildOptions.shouldApply()) {
+            return;
+        }
         RuntimeClassInitialization.initializeAtRunTime("io.netty.channel.epoll");
         RuntimeClassInitialization.initializeAtRunTime("io.netty.channel.unix.Limits");
         RuntimeClassInitialization.initializeAtRunTime("io.netty.channel.unix.IovArray");
