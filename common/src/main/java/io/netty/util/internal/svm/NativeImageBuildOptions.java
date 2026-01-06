@@ -17,7 +17,7 @@ package io.netty.util.internal.svm;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-final class NativeImageBuildOptions {
+public final class NativeImageBuildOptions {
 
     private static final String AVOID_BUILD_TIME_INIT = "io.netty.avoidBuildTimeInit";
     private static final boolean SHOULD_APPLY = System.getProperty(AVOID_BUILD_TIME_INIT) == null;
@@ -26,16 +26,17 @@ final class NativeImageBuildOptions {
     private NativeImageBuildOptions() {
     }
 
-    static boolean shouldApply() {
+    public static boolean shouldApply() {
         if (SHOULD_APPLY) {
             warn();
         }
         return SHOULD_APPLY;
     }
 
-    static void warn() {
+    public static void warn() {
         if (SHOULD_APPLY && LOGGED.compareAndSet(false, true)) {
-            System.out.println("In the future releases Netty will start using run-time initialization. Please use '-Dio.netty.avoidBuildTimeInit=true' to prepare for that change.");
+            System.out.println("In the future releases Netty will start using run-time initialization. " +
+                    "Please use '-Dio.netty.avoidBuildTimeInit=true' to prepare for that change.");
         }
     }
 }

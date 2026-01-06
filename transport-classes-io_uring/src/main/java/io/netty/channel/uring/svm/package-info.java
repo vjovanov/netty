@@ -13,4 +13,8 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+
+/**
+ * GraalVM native image Feature classes for Netty's io_uring transport.
+ */
 package io.netty.channel.uring.svm;
