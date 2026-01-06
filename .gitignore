@@ -37,7 +37,8 @@ replay_pid*.log
 *.threads
 
 # Beads
-.beads
+.beads/
+.plans/
 
 dependency-reduced-pom.xml
 
