@@ -117,6 +117,13 @@
       <optional>true</optional>
     </dependency>
 
+    <dependency>
+      <groupId>org.graalvm.nativeimage</groupId>
+      <artifactId>svm</artifactId>
+      <!-- Optional so maven-bundle-plugin does not make com.oracle.svm.core.annotate a required import -->
+      <optional>true</optional>
+    </dependency>
+
     <!-- Automatic native-image reflection metadata generation for handlers dependencies -->
     <dependency>
       <groupId>org.reflections</groupId>

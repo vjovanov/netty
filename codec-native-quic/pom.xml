@@ -1248,6 +1248,12 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>org.graalvm.nativeimage</groupId>
+      <artifactId>svm</artifactId>
+      <!-- Optional so maven-bundle-plugin does not make com.oracle.svm.core.annotate a required import -->
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>netty-codec-classes-quic</artifactId>
       <version>${project.version}</version>
