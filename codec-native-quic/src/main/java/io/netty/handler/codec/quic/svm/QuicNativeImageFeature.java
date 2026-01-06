@@ -19,8 +19,47 @@ import io.netty.util.internal.svm.NativeImageBuildOptions;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 
+/**
+ * GraalVM native image Feature for the Netty codec-native-quic module.
+ * <p>
+ * This Feature configures class initialization timing for QUIC codec classes to ensure
+ * proper native image generation and runtime behavior. It is registered automatically via
+ * the property-based configuration in {@code native-image.properties} rather than through
+ * the legacy service loader mechanism.
+ * <p>
+ * <b>Registration:</b> This Feature is registered in the module's
+ * {@code META-INF/native-image/io.netty/netty-codec-native-quic/native-image.properties} file using
+ * the {@code Args} property:
+ * <pre>
+ * Args = --features=io.netty.handler.codec.quic.svm.QuicNativeImageFeature
+ * </pre>
+ * <p>
+ * <b>Class Initialization Strategy:</b>
+ * <ul>
+ *   <li>All QUIC codec classes are initialized at runtime to ensure proper initialization
+ *       of native libraries and QUIC protocol implementations in the target environment</li>
+ *   <li>This is critical because QUIC support relies on native libraries (quiche) that must
+ *       be loaded and initialized in the actual runtime environment</li>
+ * </ul>
+ *
+ * @see NativeImageBuildOptions
+ * @see RuntimeClassInitialization
+ */
 public class QuicNativeImageFeature implements Feature {
 
+    /**
+     * Configures class initialization timing for QUIC codec classes before the native image
+     * analysis phase begins.
+     * <p>
+     * This method defers the initialization of all QUIC codec classes to runtime to ensure
+     * they can properly load native libraries and initialize the QUIC protocol stack in the
+     * actual execution environment. This is essential for native library integration.
+     * <p>
+     * The configuration is only applied if {@link NativeImageBuildOptions#shouldApply()} returns
+     * {@code true}, allowing for conditional feature activation based on build options.
+     *
+     * @param access provides access to the native image analysis context
+     */
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
         if (!NativeImageBuildOptions.shouldApply()) {

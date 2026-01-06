@@ -19,8 +19,47 @@ import io.netty.util.internal.svm.NativeImageBuildOptions;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 
+/**
+ * GraalVM native image Feature for the Netty handler module.
+ * <p>
+ * This Feature configures class initialization timing for SSL/TLS handler classes to ensure
+ * proper native image generation and runtime behavior. It is registered automatically via
+ * the property-based configuration in {@code native-image.properties} rather than through
+ * the legacy service loader mechanism.
+ * <p>
+ * <b>Registration:</b> This Feature is registered in the module's
+ * {@code META-INF/native-image/io.netty/netty-handler/native-image.properties} file using
+ * the {@code Args} property:
+ * <pre>
+ * Args = --features=io.netty.handler.ssl.svm.HandlerNativeImageFeature
+ * </pre>
+ * <p>
+ * <b>Class Initialization Strategy:</b>
+ * <ul>
+ *   <li>SSL/TLS utility classes with thread-local state are initialized at runtime to ensure
+ *       proper initialization of random number generators and security providers</li>
+ *   <li>This is critical for cryptographic security, as random number generators must be
+ *       properly seeded in the actual runtime environment</li>
+ * </ul>
+ *
+ * @see NativeImageBuildOptions
+ * @see RuntimeClassInitialization
+ */
 public class HandlerNativeImageFeature implements Feature {
 
+    /**
+     * Configures class initialization timing for SSL/TLS handler classes before the native image
+     * analysis phase begins.
+     * <p>
+     * This method defers the initialization of SSL/TLS utility classes to runtime to ensure
+     * proper initialization of cryptographic components, particularly random number generators
+     * that must be seeded in the actual execution environment.
+     * <p>
+     * The configuration is only applied if {@link NativeImageBuildOptions#shouldApply()} returns
+     * {@code true}, allowing for conditional feature activation based on build options.
+     *
+     * @param access provides access to the native image analysis context
+     */
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
         if (!NativeImageBuildOptions.shouldApply()) {

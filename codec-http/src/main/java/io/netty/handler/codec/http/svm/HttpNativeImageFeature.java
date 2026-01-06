@@ -19,8 +19,49 @@ import io.netty.util.internal.svm.NativeImageBuildOptions;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 
+/**
+ * GraalVM native image Feature for the Netty codec-http module.
+ * <p>
+ * This Feature configures class initialization timing for HTTP codec and WebSocket classes to ensure
+ * proper native image generation and runtime behavior. It is registered automatically via
+ * the property-based configuration in {@code native-image.properties} rather than through
+ * the legacy service loader mechanism.
+ * <p>
+ * <b>Registration:</b> This Feature is registered in the module's
+ * {@code META-INF/native-image/io.netty/netty-codec-http/native-image.properties} file using
+ * the {@code Args} property:
+ * <pre>
+ * Args = --features=io.netty.handler.codec.http.svm.HttpNativeImageFeature
+ * </pre>
+ * <p>
+ * <b>Class Initialization Strategy:</b>
+ * <ul>
+ *   <li>Most Netty classes are initialized at build time for optimal performance</li>
+ *   <li>Specific encoder and decoder classes are initialized at runtime to ensure proper
+ *       initialization of stateful components that depend on runtime environment</li>
+ *   <li>This hybrid approach balances performance with correctness</li>
+ * </ul>
+ *
+ * @see NativeImageBuildOptions
+ * @see RuntimeClassInitialization
+ */
 public class HttpNativeImageFeature implements Feature {
 
+    /**
+     * Configures class initialization timing for HTTP codec and WebSocket classes before the
+     * native image analysis phase begins.
+     * <p>
+     * This method sets up a hybrid initialization strategy:
+     * <ul>
+     *   <li>Build-time initialization for most {@code io.netty} classes to improve startup performance</li>
+     *   <li>Runtime initialization for specific stateful encoders/decoders that require runtime context</li>
+     * </ul>
+     * <p>
+     * The configuration is only applied if {@link NativeImageBuildOptions#shouldApply()} returns
+     * {@code true}, allowing for conditional feature activation based on build options.
+     *
+     * @param access provides access to the native image analysis context
+     */
     @Override
     public void beforeAnalysis(BeforeAnalysisAccess access) {
         if (!NativeImageBuildOptions.shouldApply()) {
