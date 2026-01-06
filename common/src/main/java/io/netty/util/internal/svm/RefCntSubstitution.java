@@ -19,7 +19,7 @@ import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.TargetClass;
 
-@TargetClass(className = "io.netty.util.internal.RefCnt$UnsafeRefCnt")
+@TargetClass(className = "io.netty.util.internal.RefCnt$UnsafeRefCnt", onlyWith = NativeImageConfigEnabled.class)
 final class RefCntSubstitution {
     private RefCntSubstitution() {
     }
