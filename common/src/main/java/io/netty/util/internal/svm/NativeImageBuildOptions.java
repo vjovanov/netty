@@ -35,7 +35,7 @@ final class NativeImageBuildOptions {
 
     static void warn() {
         if (SHOULD_APPLY && LOGGED.compareAndSet(false, true)) {
-            System.out.println("Netty will stop applying these configurations in the future.");
+            System.out.println("In the future releases Netty will start using run-time initialization. Please use '-Dio.netty.avoidBuildTimeInit=true' to prepare for that change.");
         }
     }
 }
